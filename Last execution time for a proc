@@ -1,0 +1,8 @@
+SELECT b.name, 
+       a.last_execution_time 
+FROM   sys.dm_exec_procedure_stats a 
+       INNER JOIN sys.objects b 
+               ON a.object_id = b.object_id 
+WHERE  Db_name(a.database_id) = 'PNL' 
+and b.name like '%BookAutoPublish%'
+ORDER  BY a.last_execution_time DESC  
