@@ -1,0 +1,5 @@
+SELECT * FROM SYSOBJECTS WHERE id in (SELECT id FROM syscolumns C WHERE name = 'ColumnName')
+
+SELECT * FROM SYSOBJECTS WHERE id in (SELECT id FROM syscomments WHERE text like '%ColumnName%')
+
+SELECT * FROM sysobjects o WHERE o.name like '%part of the name%' AND xtype IN ('P') ORDER BY o.name
