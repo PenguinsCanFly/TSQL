@@ -1,0 +1,8 @@
+select * from sys.indexes where object_id = object_id('RDist.FactReportBlob')
+select * from sys.stats  where object_id = object_id('RDist.FactReportBlob')
+  
+dbcc show_statistics ('RDist.FactReportBlob', _WA_Sys_00000002_6227E9D4)
+  
+drop statistics RDist.FactReportBlob._WA_Sys_00000002_6227E9D4
+  
+UPDATE STATISTICS RDist.FactReportBlob WITH FULLSCAN
