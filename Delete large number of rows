@@ -1,0 +1,22 @@
+SET NOCOUNT ON
+SET DEADLOCK_PRIORITY low
+
+DECLARE @KeepHistoryFor INT = 10
+DECLARE @MinCOBDateToKeep SMALLDATETIME
+DECLARE @i INT = 1
+
+;WITH cteCOB AS (
+	SELECT DISTINCT TOP (@KeepHistoryFor) COBDate
+	FROM [upstream].[BUCSSignoffStatus] WITH(NOLOCK)
+	ORDER BY COBDate DESC
+)
+SELECT @MinCOBDateToKeep = MIN(COBDate) FROM cteCOB
+
+SET @i = 1
+WHILE @i <= 1
+BEGIN
+	DELETE TOP(100000) FROM upstream.BUCS_pvwVDBalanceGCP_Adj WHERE CoBDate < @MinCOBDateToKeep
+	IF @@ROWCOUNT = 0
+		BREAK
+	SET @i = @i + 1
+END
